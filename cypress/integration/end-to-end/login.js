@@ -1,13 +1,12 @@
 /// <reference types="cypress" />
 
 import faker from 'faker'
-// const faker = require("faker")
+
 
 describe('login', () => {
     beforeEach(() => {
-        //TODO baseurl
     //  cy.visit('https://www.petz.com.br/')
-     cy.visit('https://www.petz.com.br/login_LoginLoja.html')
+     cy.visit('login_LoginLoja.html')
      cy.get('#aceiteLgpd').click()
     })
 
@@ -27,11 +26,8 @@ describe('login', () => {
         //TODO pausa mouse para acessar um elemento dinâmico
         // cy.get('[class="login have-dropdown"]').trigger('mouseover') 
         // cy.get('.button-login').click()
-        cy.get('#loginCliente').find('#email').should('be.visible').type(email_ok)
-        cy.get('#loginCliente').find('#Senha').should('be.visible').type(senha_ok, {log:false})
-        cy.get('#showPass').should('not.be.checked')
-        cy.get('#manter').should('be.checked')
-        cy.get('#loginCliente').find('input[type="submit"]').click()
+        
+        cy.login(email_ok, senha_ok)
         cy.get('.username').should('have.text',name_ok)
     })
 
@@ -41,76 +37,43 @@ describe('login', () => {
         // cy.get('[class="login have-dropdown"]').trigger('mouseover',{force:true})
         // cy.get('.not-loggedin').should('be.visible').find('.button-login').click()
 
-        cy.get('#loginCliente').find('#email').should('be.visible').type(cpf_ok)
-        cy.get('#loginCliente').find('#Senha').should('be.visible').type(senha_ok, {log:false})
-        cy.get('#showPass').should('not.be.checked')
-        cy.get('#manter').should('be.checked')
-        cy.get('#loginCliente').find('input[type="submit"]').click()
+        cy.login(cpf_ok, senha_ok)
         cy.get('.username').should('have.text',name_ok)
     })
 
     it('authenticate unsuccessfully with invalid e-mail', () => {
-        cy.log(email_nok)
-        cy.get('#loginCliente').find('#email').type(email_nok).should('have.value',email_nok)
-        cy.get('#loginCliente').find('#Senha').should('be.visible').type(senha_ok, {log:false})
-        cy.get('#showPass').should('not.be.checked')
-        cy.get('#manter').uncheck().should('not.be.checked')
-        cy.get('#loginCliente').find('input[type="submit"]').click()
-        cy.get('#loginCliente').should('be.visible').contains(alert_invalid_data)
+        cy.login(email_nok, senha_ok)
+        cy.get('#loginCliente').contains(alert_invalid_data).should('be.visible')
     })
 
     it('authenticate unsuccessfully with invalid cpf', () => {
-        cy.get('#loginCliente').find('#email').type(cpf_nok).should('have.value',cpf_nok)
-        cy.get('#loginCliente').find('#Senha').should('be.visible').type(senha_ok, {log:false})
-        cy.get('#showPass').should('not.be.checked')
-        cy.get('#manter').uncheck().should('not.be.checked')
-        cy.get('#loginCliente').find('input[type="submit"]').click()
-        cy.get('#loginCliente').should('be.visible').contains(alert_invalid_data)
+        cy.login(cpf_nok, senha_ok)
+        cy.get('#loginCliente').contains(alert_invalid_data).should('be.visible')
     })
 
     it('authenticate unsuccessfully with invalid password and valid e-mail', () => {
-        cy.get('#loginCliente').find('#email').type(email_ok).should('have.value',email_ok)
-        cy.get('#loginCliente').find('#Senha').should('be.visible').type(senha_nok, {log:false})
-        cy.get('#showPass').should('not.be.checked')
-        cy.get('#manter').uncheck().should('not.be.checked')
-        cy.get('#loginCliente').find('input[type="submit"]').click()
-        cy.get('#loginCliente').should('be.visible').contains(alert_invalid_data)
+        cy.login(email_ok, senha_nok)       
+        cy.get('#loginCliente').contains(alert_invalid_data).should('be.visible')
     })
 
     it('authenticate unsuccessfully with invalid password and valid cpf', () => {
-        cy.get('#loginCliente').find('#email').type(cpf_ok).should('have.value',cpf_ok)
-        cy.get('#loginCliente').find('#Senha').should('be.visible').type(senha_nok, {log:false})
-        cy.get('#showPass').should('not.be.checked')
-        cy.get('#manter').uncheck().should('not.be.checked')
-        cy.get('#loginCliente').find('input[type="submit"]').click()
-        cy.get('#loginCliente').should('be.visible').contains(alert_invalid_data)
+        cy.login(cpf_ok, senha_nok)       
+        cy.get('#loginCliente').contains(alert_invalid_data).should('be.visible')
     })
 
     it('authenticate unsuccessfully no fill data', () => {
-        cy.get('#loginCliente').find('#email').should('have.value','')
-        cy.get('#loginCliente').find('#Senha').should('have.value','')
-        cy.get('#showPass').should('not.be.checked')
-        cy.get('#manter').should('be.checked')
-        cy.get('#loginCliente').find('input[type="submit"]').click()
-        cy.get('#loginCliente').should('be.visible').contains(alert_invalid_data)
+        cy.login('', '')       
+        cy.get('#loginCliente').should('be.visible')
     })
 
-    it('authenticate unsuccessfully with valid email and no fill password', () => {
-        cy.get('#loginCliente').find('#email').should('be.visible').type(email_ok)
-        cy.get('#loginCliente').find('#Senha').should('have.value','')
-        cy.get('#showPass').should('not.be.checked')
-        cy.get('#manter').should('be.checked')
-        cy.get('#loginCliente').find('input[type="submit"]').click()
-        cy.get('#loginCliente').should('be.visible').contains(alert_invalid_data)
+    it('authenticate unsuccessfully with valid email and no fill password', () => {        
+        cy.login(email_ok, '')       
+        cy.get('#loginCliente').should('be.visible')
     })
 
     it('authenticate unsuccessfully with valid cpf and no fill password', () => {
-        cy.get('#loginCliente').find('#email').should('be.visible').type(cpf_ok)
-        cy.get('#loginCliente').find('#Senha').should('have.value','')        
-        cy.get('#showPass').should('not.be.checked')
-        cy.get('#manter').should('be.checked')
-        cy.get('#loginCliente').find('input[type="submit"]').click()
-        cy.get('#loginCliente').should('be.visible').contains(alert_invalid_data)
+        cy.login(cpf_ok, '') 
+        cy.get('#loginCliente').should('be.visible')
     })
 
 

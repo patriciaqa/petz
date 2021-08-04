@@ -1,0 +1,23 @@
+{
+  "name": "petz",
+  "version": "1.0.0",
+  "description": "Setting",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patriciaqa/petz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patriciaqa/petz/issues"
+  },
+  "homepage": "https://github.com/patriciaqa/petz#readme",
+  "dependencies": {
+    "faker": "^5.5.3"
+  }
+}

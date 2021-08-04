@@ -23,3 +23,16 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', (email, password) => { 
+    if (email != '')
+        cy.get('#loginCliente').find('#email').should('be.visible').type(email)
+    
+    if (password != '') 
+        cy.get('#loginCliente').find('#Senha').should('be.visible').type(password,{log:false})
+    
+    const show_pass = (email == '' | password == '')? cy.get('#showPass').check() : cy.get('#showPass').should('not.be.checked') 
+    
+    if (show_pass)
+     cy.get('#loginCliente').find('input[type="submit"]').click()
+})
