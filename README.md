@@ -1,6 +1,7 @@
 # petz
 
 Setting
+
 0. Install npm
 1. Init Node:
 * $ npm init -y
