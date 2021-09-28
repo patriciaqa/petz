@@ -2,8 +2,8 @@
 
 Setting
 
-0. Install npm
-1. Init Node:
+0. Install Node
+1. Init npm:
 * $ npm init -y
 
 2. Install Cypress:
